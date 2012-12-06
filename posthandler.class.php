@@ -22,15 +22,19 @@ class posthandler
 
   function login()
   { 
-    $auth = new authenticate;    
-    echo $auth->login($this->postObject->username, $this->postObject->password);    
+    $auth = new authenticate;
+    header('Location:'.$auth->login($this->postObject->username, $this->postObject->password));
   }
 
-  function saveMessage()
+  function savemessage()
   { 
-    $this->blog->setId($this->postObject->myid);
-    $this->blog->setMessage($this->postObject->mymessage);
-    echo $this->blog->saveEntry();    
+    $this->blog->setSessionId($this->postObject->sessionid);
+    $this->blog->setRefId($this->postObject->refid);
+    $this->blog->setUserId($this->postObject->userid);
+    $this->blog->setTitle($this->postObject->title);
+    $this->blog->setContent($this->postObject->content);
+    $this->blog->saveEntry();
+    header('Location:private.php?sessionid='.$this->postObject->sessionid);
   }
 }
 new posthandler($_POST);

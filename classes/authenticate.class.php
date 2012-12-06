@@ -16,22 +16,19 @@ class authenticate
   {
     $this->username = mysql_real_escape_string($u);    
     $this->password = mysql_real_escape_string(md5($p));    
-    $q = "SELECT * FROM users WHERE username='{$this->username}' AND password='{$this->password}'";  
-    $result = $this->db->query($q);    
-    if($result)
+    $q = "SELECT * FROM users WHERE username='{$this->username}' AND password='{$this->password}'";    
+    $result = $this->db->singleRow($q);
+    if($result->id)
     {
-      foreach($result as $row)
-      {
-        $this->id = $row['id'];
-        $this->username = $row['username'];
-      }      
+      $this->id = $result->id;
+      $this->username = $result->username;
       $this->createSession();
       return 'private.php?sessionid='.session_id();
     }
     else
     {
       $this->destroySession();   
-      return 'fail';
+      return 'index.php';
     }  
   }
 
@@ -52,7 +49,7 @@ class authenticate
     unset($_SESSION['AUTH_USERNAME']);
     session_destroy();    
   }
-
+  
   function __destruct()
   {
 

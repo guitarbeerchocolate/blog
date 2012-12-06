@@ -2,24 +2,29 @@
 session_start();
 require_once 'classes/autoload.php';
 $config = NULL;
-$config = (object) parse_ini_file('classes/config.ini', true);
+$config = new config;
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Blog</title>
-<?php
-include 'includes/chatstyle.inc.php';
-include 'includes/jquery.inc.php';
-?>
+<style>
+img
+{
+	display:none;
+}
+</style>
+<script src="http://www.google.com/jsapi"></script>
+<script>
+  google.load("jquery", "1");
+</script>
 </head>
 <body>
 <h1>Blog</h1>
-<img src="<?php echo $config->IMAGE_LOC; ?>loading.gif" />
+<img src="<?php echo $config->values->IMAGE_LOC; ?>loading.gif" />
 <?php
 include 'includes/loginform.inc.php';
-include 'includes/loginscript.inc.php';
 ?>
 </body>
 </html>
